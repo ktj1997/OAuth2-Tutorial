@@ -1,20 +1,20 @@
 package spring.oauth.tutorial.auth.adapter.outbound.oauth
 
+import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties
 import org.springframework.security.oauth2.client.registration.ClientRegistration
 import org.springframework.stereotype.Component
-import spring.oauth.tutorial.auth.adapter.inbound.rest.config.properties.OAuth2Properties
 
 @Component
 class OAuth2ProviderRepository(
-    private val oAuth2Properties: OAuth2Properties
+    private val oAuth2ClientProperties: OAuth2ClientProperties
 ) {
     fun getRegistrations() : List<ClientRegistration> {
         val registrations = OAuth2Provider.values()
-            .map {provider ->
-                provider.getBuilder(
-                    registrationName = provider.registrationName,
-                    providerProperties = oAuth2Properties.provider[provider.registrationName]!!,
-                    registrationProperties = oAuth2Properties.registration[provider.registrationName]!!
+            .map {oAuthProvider ->
+                oAuthProvider.getBuilder(
+                    providerName = oAuthProvider.providerName,
+                    provider = oAuth2ClientProperties.provider[oAuthProvider.providerName]!!,
+                    registration = oAuth2ClientProperties.registration[oAuthProvider.providerName]!!
                 ).build() }
             .toList()
 

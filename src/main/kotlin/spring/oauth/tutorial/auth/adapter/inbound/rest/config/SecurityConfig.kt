@@ -11,12 +11,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository
 import org.springframework.security.web.SecurityFilterChain
-import spring.oauth.tutorial.auth.adapter.inbound.rest.config.properties.OAuth2Properties
 import spring.oauth.tutorial.auth.adapter.outbound.oauth.OAuth2ProviderRepository
 
 @Configuration
 @EnableWebSecurity
-@EnableConfigurationProperties(OAuth2Properties::class)
 class SecurityConfig(
     private val oAuth2ProviderRepository: OAuth2ProviderRepository
 ){
