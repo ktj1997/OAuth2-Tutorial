@@ -17,7 +17,6 @@ import org.springframework.security.web.SecurityFilterChain
 @Configuration
 @EnableWebSecurity
 class SecurityConfig(
-    private val oAuth2ClientProperties: OAuth2ClientProperties
 ){
 
     @Bean
@@ -32,22 +31,16 @@ class SecurityConfig(
         http
             .httpBasic().disable()
             .formLogin().disable()
-            .logout().disable()
+            .csrf().disable()
 
         http
             .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
         http
-            .authorizeHttpRequests()
-            .requestMatchers(HttpMethod.POST,"/api/v1/auth/signin")
-            .permitAll()
+            .authorizeHttpRequests().requestMatchers(HttpMethod.POST,"/api/v1/auth/**").permitAll()
             .anyRequest()
             .hasAnyRole("USER")
-
-        http
-            .oauth2Login()
-            .clientRegistrationRepository(clientRegistrationRepository(oAuth2ClientProperties))
 
         return http.build()
     }
