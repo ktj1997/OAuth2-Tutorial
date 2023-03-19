@@ -1,28 +1,4 @@
 spring:
-  security:
-    oauth2:
-      client:
-        # Registration (GOOGLE, KAKAO)
-        registration:
-          google:
-            client-id: ${GOOGLE_OAUTH_CLIENT_ID:GOOGLE}
-            client-secret: ${GOOGLE_OAUTH_CLIENT_PASSWORD:GOOGLE_PASSWORD}
-            redirect-uri: http://localhost:3000/oauth/google
-          kakao:
-            client-id: ${KAKAO_OAUTH_CLIENT_ID:KAKAO}
-            client-secret: ${KAKAO_OAUTH_CLIENT_PASSWORD:KAKAO_PASSWORD}
-            redirect-uri: http://localhost:3000/oauth/kakao
-        # Provider (GOOGLE, KAKAO)
-        provider:
-          google:
-            authorization-uri: ${GOOGLE_AUTHORIZATION_URI:GOOGLE_AUTHORIZATION_URI}
-            token-uri: ${GOOGLE_TOKEN_URI:GOOGLE_TOKEN}
-            user-info-uri: ${GOOGLE_USER_INFO_URI:GOOGLE_USER_INFO_URI}
-            user-name-attribute: ${GOOGLE_USER_NAME_ATTRIBUTE:GOOGLE_USER_NAME_ATTRIBUTE}
-          kakao:
-            authorization-uri: ${KAKAO_AUTHORIZATION_URI:KAKO_AUTHORIZATION_URI}
-            token-uri: ${KAKAO_TOKEN_URI:KAKAO_TOKEN_URI}
-            user-info-uri: ${KAKAO_USER_INFO_URI:KAKAO_USER_INFO_URI}
-            user-name-attribute: ${KAKAO_USER_NAME_ATTRIBUTE:KAKAO_USER_NAME_ATTRIBUTE}
-
+  config:
+    import: application-oauth-config.yml
 
