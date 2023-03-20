@@ -21,8 +21,10 @@ spring:
           google:
             authorization-uri: ${GOOGLE_AUTHORIZATION_URI:GOOGLE_AUTHORIZATION_URI}
             token-uri: ${GOOGLE_TOKEN_URI:GOOGLE_TOKEN}
+            user-info-uri: ${GOOGLE_USER_INFO_URI:GOOGLE_USER_INFO_URI}
           kakao:
             authorization-uri: ${KAKAO_AUTHORIZATION_URI:KAKO_AUTHORIZATION_URI}
             token-uri: ${KAKAO_TOKEN_URI:https://kauth.kakao.com//oauth/token}
+            user-info-uri: ${KAKAO_USER_INFO_URI:https://kapi.kakao.com//v2/user/me}
 
 

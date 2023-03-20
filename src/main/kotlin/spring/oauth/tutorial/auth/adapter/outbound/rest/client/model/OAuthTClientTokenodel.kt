@@ -3,19 +3,6 @@ import com.fasterxml.jackson.annotation.JsonProperty
 data class OAuthTokenResponse(
     val token:String
 )
-
-data class KaKaoOauthClientRequest(
-    @JsonProperty(value = "code")
-    val code:String,
-    @JsonProperty(value = "client_id")
-    val clientId:String,
-    @JsonProperty(value = "client_secret")
-    val clientSecret: String,
-    @JsonProperty(value = "redirect_uri")
-    val redirectUri: String,
-    @JsonProperty(value = "grant_type")
-    val grantType:String
-)
 data class KaKaoOauthClientResponse(
     @JsonProperty(value = "token_type")
     val tokenType:String,

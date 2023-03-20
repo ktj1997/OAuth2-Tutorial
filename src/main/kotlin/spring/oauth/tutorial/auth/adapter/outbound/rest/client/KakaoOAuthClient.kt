@@ -1,6 +1,5 @@
 package spring.oauth.tutorial.auth.adapter.outbound.rest.client
 
-import KaKaoOauthClientRequest
 import KaKaoOauthClientResponse
 import OAuthTokenResponse
 import java.nio.charset.StandardCharsets
@@ -9,6 +8,8 @@ import org.springframework.http.MediaType
 import org.springframework.security.oauth2.client.registration.ClientRegistration
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
+import spring.oauth.tutorial.auth.adapter.outbound.rest.client.model.KakaoOauthUserInfoResponse
+import spring.oauth.tutorial.auth.adapter.outbound.rest.client.model.OAuthUserInfo
 import spring.oauth.tutorial.auth.domain.OAuthType
 
 @Component
@@ -17,13 +18,6 @@ class KakaoOAuthClient : OAuthClient {
         registration: ClientRegistration,
         authorizationCode: String
     ): OAuthTokenResponse {
-        val requestBody = KaKaoOauthClientRequest(
-            code = authorizationCode,
-            clientId = registration.clientId,
-            clientSecret = registration.clientSecret,
-            redirectUri = registration.redirectUri,
-            grantType = registration.authorizationGrantType.value
-        )
         val response =
             WebClient
                 .create()
@@ -46,6 +40,26 @@ class KakaoOAuthClient : OAuthClient {
 
         return OAuthTokenResponse(response.accessToken)
     }
+
+    override fun getUserInfo(accessToken: String, registration: ClientRegistration,): OAuthUserInfo {
+        val response =
+            WebClient
+                .create()
+                .get()
+                .uri (registration.providerDetails.userInfoEndpoint.uri)
+                .headers{
+                    it.contentType = MediaType.APPLICATION_FORM_URLENCODED
+                    it.acceptCharset = Collections.singletonList(StandardCharsets.UTF_8)
+                    it.setBearerAuth(accessToken)
+                }
+                .retrieve()
+                .bodyToMono(KakaoOauthUserInfoResponse::class.java)
+                .block() ?: throw IllegalArgumentException("OAuth Get UserInfo Fail: Kakao")
+        return OAuthUserInfo(
+            email = response.kakaoAccount?.email ?: ""
+        )
+    }
+
 
     override fun getProvider(): OAuthType {
         return OAuthType.KAKAO
