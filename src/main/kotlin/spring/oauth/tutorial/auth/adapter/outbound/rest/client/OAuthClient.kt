@@ -6,7 +6,7 @@ import spring.oauth.tutorial.auth.adapter.outbound.rest.client.model.OAuthUserIn
 import spring.oauth.tutorial.auth.domain.OAuthType
 
 interface OAuthClient {
-    fun getToken(registration: ClientRegistration, authorizationCode: String) : OAuthTokenResponse
-    fun getUserInfo(accessToken: String, registration: ClientRegistration,) : OAuthUserInfo
+    fun getToken(registration: ClientRegistration, authorizationCode: String): OAuthTokenResponse
+    fun getUserInfo(accessToken: String, registration: ClientRegistration,): OAuthUserInfo
     fun getProvider(): OAuthType
 }

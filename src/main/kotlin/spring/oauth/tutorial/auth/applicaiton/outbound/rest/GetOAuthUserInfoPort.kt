@@ -4,5 +4,5 @@ import spring.oauth.tutorial.auth.adapter.outbound.rest.client.model.OAuthUserIn
 import spring.oauth.tutorial.auth.domain.OAuthType
 
 interface GetOAuthUserInfoPort {
-    fun getUserInfo(provider: OAuthType, accessToken:String) : OAuthUserInfo
+    fun getUserInfo(provider: OAuthType, accessToken: String): OAuthUserInfo
 }

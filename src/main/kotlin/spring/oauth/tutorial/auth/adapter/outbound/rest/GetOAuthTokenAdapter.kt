@@ -21,5 +21,4 @@ class GetOAuthTokenAdapter(
 
         return oAuthTokenResponse.token
     }
-
 }

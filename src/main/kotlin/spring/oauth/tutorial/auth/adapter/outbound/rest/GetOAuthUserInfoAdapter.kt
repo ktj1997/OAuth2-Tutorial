@@ -15,6 +15,6 @@ class GetOAuthUserInfoAdapter(
         val registration = clientRepository.findByRegistrationId(provider.registrationName)
         val oAuthClient = oAuthClientFactory.findByProvider(provider)
 
-        return oAuthClient.getUserInfo(accessToken,registration)
+        return oAuthClient.getUserInfo(accessToken, registration)
     }
 }

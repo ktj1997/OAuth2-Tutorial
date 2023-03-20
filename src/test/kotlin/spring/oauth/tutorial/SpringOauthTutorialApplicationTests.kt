@@ -9,5 +9,4 @@ class SpringOauthTutorialApplicationTests {
     @Test
     fun contextLoads() {
     }
-
 }

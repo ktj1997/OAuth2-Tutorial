@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 
 data class OAuthUserInfo(
-    val email:String
+    val email: String
 )
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -15,9 +15,9 @@ data class KakaoOauthUserInfoResponse(
 
     @JsonProperty("kakao_account")
     val kakaoAccount: KakaoAccount
-){
+) {
     data class KakaoAccount(
-        val email:String,
+        val email: String,
         val isEmailValid: Boolean,
         val isEmailVerified: Boolean
     )

@@ -24,15 +24,15 @@ data class AccountEntity(
 
     @Column
     @Enumerated(EnumType.STRING)
-    val oAuthType: OAuthType
-){
-    companion object{
-        fun fromDomain(domain: Account) : AccountEntity{
+    val oauthType: OAuthType
+) {
+    companion object {
+        fun fromDomain(domain: Account): AccountEntity {
             return AccountEntity(
                 userName = domain.userName,
                 password = domain.password,
                 email = domain.email,
-                oAuthType = domain.oAuthType
+                oauthType = domain.oAuthType
             )
         }
     }

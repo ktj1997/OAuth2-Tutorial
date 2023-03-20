@@ -5,5 +5,5 @@ import spring.oauth.tutorial.auth.domain.OAuthType
 
 interface GetAccountPort {
 
-    fun findAccountByEmailAndOAuthType(email:String, oAuthType: OAuthType) : Account?
+    fun findAccountByEmailAndOAuthType(email: String, oAuthType: OAuthType): Account?
 }

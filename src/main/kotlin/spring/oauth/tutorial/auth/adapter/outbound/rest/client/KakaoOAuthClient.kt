@@ -2,8 +2,6 @@ package spring.oauth.tutorial.auth.adapter.outbound.rest.client
 
 import KaKaoOauthClientResponse
 import OAuthTokenResponse
-import java.nio.charset.StandardCharsets
-import java.util.Collections
 import org.springframework.http.MediaType
 import org.springframework.security.oauth2.client.registration.ClientRegistration
 import org.springframework.stereotype.Component
@@ -11,6 +9,8 @@ import org.springframework.web.reactive.function.client.WebClient
 import spring.oauth.tutorial.auth.adapter.outbound.rest.client.model.KakaoOauthUserInfoResponse
 import spring.oauth.tutorial.auth.adapter.outbound.rest.client.model.OAuthUserInfo
 import spring.oauth.tutorial.auth.domain.OAuthType
+import java.nio.charset.StandardCharsets
+import java.util.Collections
 
 @Component
 class KakaoOAuthClient : OAuthClient {
@@ -22,7 +22,7 @@ class KakaoOAuthClient : OAuthClient {
             WebClient
                 .create()
                 .post()
-                .uri (registration.providerDetails.tokenUri) { uriBuilder ->
+                .uri(registration.providerDetails.tokenUri) { uriBuilder ->
                     uriBuilder
                         .queryParam("code", authorizationCode)
                         .queryParam("client_id", registration.clientId)
@@ -30,7 +30,7 @@ class KakaoOAuthClient : OAuthClient {
                         .queryParam("grant_type", registration.authorizationGrantType.value)
                         .build()
                 }
-                .headers{
+                .headers {
                     it.contentType = MediaType.APPLICATION_FORM_URLENCODED
                     it.acceptCharset = Collections.singletonList(StandardCharsets.UTF_8)
                 }
@@ -46,8 +46,8 @@ class KakaoOAuthClient : OAuthClient {
             WebClient
                 .create()
                 .get()
-                .uri (registration.providerDetails.userInfoEndpoint.uri)
-                .headers{
+                .uri(registration.providerDetails.userInfoEndpoint.uri)
+                .headers {
                     it.contentType = MediaType.APPLICATION_FORM_URLENCODED
                     it.acceptCharset = Collections.singletonList(StandardCharsets.UTF_8)
                     it.setBearerAuth(accessToken)
@@ -59,7 +59,6 @@ class KakaoOAuthClient : OAuthClient {
             email = response.kakaoAccount?.email ?: ""
         )
     }
-
 
     override fun getProvider(): OAuthType {
         return OAuthType.KAKAO

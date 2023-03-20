@@ -4,5 +4,5 @@ import spring.oauth.tutorial.auth.domain.Account
 
 interface SaveAccountPort {
 
-    fun save(account:Account) : Account
+    fun save(account: Account): Account
 }

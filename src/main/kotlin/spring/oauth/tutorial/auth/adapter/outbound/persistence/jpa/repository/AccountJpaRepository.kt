@@ -6,6 +6,6 @@ import spring.oauth.tutorial.auth.adapter.outbound.persistence.jpa.entity.Accoun
 import spring.oauth.tutorial.auth.domain.OAuthType
 
 @Repository
-interface AccountJpaRepository : JpaRepository<AccountEntity,Long> {
-    fun findByEmailAndOAuthType(email:String, oAuthType: OAuthType) : AccountEntity?
+interface AccountJpaRepository : JpaRepository<AccountEntity, Long> {
+    fun findByEmailAndOauthType(email: String, oAuthType: OAuthType): AccountEntity?
 }

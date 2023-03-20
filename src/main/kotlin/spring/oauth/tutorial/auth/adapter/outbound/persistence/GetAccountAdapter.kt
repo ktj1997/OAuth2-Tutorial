@@ -10,10 +10,9 @@ import spring.oauth.tutorial.auth.domain.OAuthType
 @Component
 class GetAccountAdapter(
     private val accountJpaRepository: AccountJpaRepository
-) : GetAccountPort
-{
+) : GetAccountPort {
     override fun findAccountByEmailAndOAuthType(email: String, oAuthType: OAuthType): Account? {
-        val entity = accountJpaRepository.findByEmailAndOAuthType(email, oAuthType)
+        val entity = accountJpaRepository.findByEmailAndOauthType(email, oAuthType)
         return entity?.toDomain()
     }
 }

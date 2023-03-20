@@ -21,7 +21,7 @@ class SignInController(
     @PostMapping("/signin")
     fun signIn(
         @RequestBody request: SignInRequest,
-    ):SignInResponse {
+    ): SignInResponse {
         val query = request.toQuery()
         val result = signInUseCase.signIn(query)
 
@@ -31,7 +31,7 @@ class SignInController(
     @PostMapping("/signin/oauth")
     fun oAuthSignIn(
         @RequestBody request: OAuthSignInRequest
-    ):OAuthSignInResponse{
+    ): OAuthSignInResponse {
         val query = request.toQuery()
         val result = oAuthSignInUseCase.oAuthSignIn(query)
 
