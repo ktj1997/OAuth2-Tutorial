@@ -1,4 +1,5 @@
 spring:
   config:
-    import: application-oauth-config.yml
-
+    import:
+      - application-oauth-config.yml
+      - application-persistence.yml

@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: ${DATASOURCE_URL:jdbc:mysql://localhost:3306/test}?useSSL=false&useUnicode=true&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${DATASOURCE_USERNAME:root}
+    password: ${DATASOURCE_PASSWORD:1q2w3e4r}
+  jpa:
+    show-sql: true
+    database: mysql
+    hibernate:
+      ddl-auto: none
