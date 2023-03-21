@@ -1,4 +1,4 @@
-package spring.oauth.tutorial.auth.applicaiton.inbound.model
+package spring.oauth.tutorial.auth.applicaiton.inbound.rest.controller.model
 
 import spring.oauth.tutorial.auth.domain.OAuthType
 

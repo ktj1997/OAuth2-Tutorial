@@ -2,7 +2,7 @@ package spring.oauth.tutorial.auth.adapter.outbound.rest
 
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository
 import org.springframework.stereotype.Component
-import spring.oauth.tutorial.auth.applicaiton.inbound.model.OAuthSignInQuery
+import spring.oauth.tutorial.auth.applicaiton.inbound.rest.controller.model.OAuthSignInQuery
 import spring.oauth.tutorial.auth.applicaiton.outbound.rest.GetOAuthTokenPort
 
 @Component

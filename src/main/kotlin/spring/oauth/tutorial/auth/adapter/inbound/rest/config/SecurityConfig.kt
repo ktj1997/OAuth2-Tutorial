@@ -1,5 +1,6 @@
 package spring.oauth.tutorial.auth.adapter.inbound.rest.config
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties
 import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientPropertiesRegistrationAdapter
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -13,21 +14,27 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import spring.oauth.tutorial.auth.adapter.inbound.rest.filter.JwtAuthenticationFilter
+import spring.oauth.tutorial.auth.adapter.outbound.jwt.JwtTokenProperties
+import spring.oauth.tutorial.auth.applicaiton.inbound.rest.filter.AuthorizeUserUseCase
 
 @Configuration
 @EnableWebSecurity
+@EnableConfigurationProperties(value = [JwtTokenProperties::class])
 class SecurityConfig(
-){
+    val objectMapper: ObjectMapper,
+    val authorizeUserUseCase: AuthorizeUserUseCase
+) {
 
     @Bean
-    fun bcryptPasswordEncoder(): BCryptPasswordEncoder{
+    fun bcryptPasswordEncoder(): BCryptPasswordEncoder {
         return BCryptPasswordEncoder()
     }
 
-
-    //refresh-token-rotation
+    // refresh-token-rotation
     @Bean
-    fun filterChain(http: HttpSecurity) : SecurityFilterChain{
+    fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http
             .httpBasic().disable()
             .formLogin().disable()
@@ -38,17 +45,21 @@ class SecurityConfig(
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
         http
-            .authorizeHttpRequests().requestMatchers(HttpMethod.POST,"/api/v1/auth/**").permitAll()
+            .authorizeHttpRequests().requestMatchers(HttpMethod.POST, "/api/v1/auth/**").permitAll()
+            .and()
+            .authorizeHttpRequests().requestMatchers(HttpMethod.GET, "/oauth").permitAll()
             .anyRequest()
-            .hasAnyRole("USER")
+            .authenticated()
 
-        return http.build()
+        return http
+            .addFilterBefore(JwtAuthenticationFilter(objectMapper, authorizeUserUseCase), UsernamePasswordAuthenticationFilter::class.java)
+            .build()
     }
 
     @Bean
     fun clientRegistrationRepository(
-       oAuth2ClientProperties: OAuth2ClientProperties
-    ) : ClientRegistrationRepository{
+        oAuth2ClientProperties: OAuth2ClientProperties
+    ): ClientRegistrationRepository {
         val clientRegistrations =
             ArrayList(OAuth2ClientPropertiesRegistrationAdapter.getClientRegistrations(oAuth2ClientProperties).values)
         return InMemoryClientRegistrationRepository(clientRegistrations)

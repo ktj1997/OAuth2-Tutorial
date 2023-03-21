@@ -3,10 +3,6 @@ package spring.oauth.tutorial.auth.adapter.outbound.rest.client.model
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 
-data class OAuthUserInfo(
-    val email: String
-)
-
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class KakaoOauthUserInfoResponse(
     val id: Long,

@@ -1,5 +1,5 @@
-import spring.oauth.tutorial.auth.applicaiton.inbound.model.SignInQuery
-import spring.oauth.tutorial.auth.applicaiton.inbound.model.SignInResult
+import spring.oauth.tutorial.auth.applicaiton.inbound.rest.controller.model.SignInQuery
+import spring.oauth.tutorial.auth.applicaiton.inbound.rest.controller.model.SignInResult
 
 data class SignInRequest(
     val userName: String,

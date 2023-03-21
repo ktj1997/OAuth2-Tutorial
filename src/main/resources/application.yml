@@ -3,3 +3,11 @@ spring:
     import:
       - application-oauth-config.yml
       - application-persistence.yml
+
+jwt:
+  access:
+    expire: ${ACCESS_TOKEN_EXPIRE}
+    secret: ${ACCESS_TOKEN_SECRET}
+  refresh:
+    expire:  ${REFRESH_TOKEN_EXPIRE}
+    secret:  ${REFRESH_TOKEN_SECRET}

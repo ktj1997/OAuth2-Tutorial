@@ -1,4 +1,4 @@
-package spring.oauth.tutorial.auth.adapter.inbound.rest
+package spring.oauth.tutorial.auth.adapter.inbound.rest.controller
 
 import SignInRequest
 import SignInResponse
@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import spring.oauth.tutorial.auth.adapter.inbound.rest.model.OAuthSignInRequest
-import spring.oauth.tutorial.auth.adapter.inbound.rest.model.OAuthSignInResponse
-import spring.oauth.tutorial.auth.applicaiton.inbound.OAuthSignInUseCase
-import spring.oauth.tutorial.auth.applicaiton.inbound.SignInUseCase
+import spring.oauth.tutorial.auth.adapter.inbound.rest.controller.model.OAuthSignInRequest
+import spring.oauth.tutorial.auth.adapter.inbound.rest.controller.model.OAuthSignInResponse
+import spring.oauth.tutorial.auth.applicaiton.inbound.rest.controller.OAuthSignInUseCase
+import spring.oauth.tutorial.auth.applicaiton.inbound.rest.controller.SignInUseCase
 
 @RestController
 @RequestMapping("/api/v1/auth")

@@ -1,7 +1,7 @@
-package spring.oauth.tutorial.auth.adapter.inbound.rest.model
+package spring.oauth.tutorial.auth.adapter.inbound.rest.controller.model
 
-import spring.oauth.tutorial.auth.applicaiton.inbound.model.OAuthSignInQuery
-import spring.oauth.tutorial.auth.applicaiton.inbound.model.OAuthSignInResult
+import spring.oauth.tutorial.auth.applicaiton.inbound.rest.controller.model.OAuthSignInQuery
+import spring.oauth.tutorial.auth.applicaiton.inbound.rest.controller.model.OAuthSignInResult
 import spring.oauth.tutorial.auth.domain.OAuthType
 
 data class OAuthSignInRequest(

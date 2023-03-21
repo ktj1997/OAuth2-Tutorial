@@ -1,9 +1,9 @@
 package spring.oauth.tutorial.auth.applicaiton.service
 
 import org.springframework.stereotype.Service
-import spring.oauth.tutorial.auth.applicaiton.inbound.SignInUseCase
-import spring.oauth.tutorial.auth.applicaiton.inbound.model.SignInQuery
-import spring.oauth.tutorial.auth.applicaiton.inbound.model.SignInResult
+import spring.oauth.tutorial.auth.applicaiton.inbound.rest.controller.SignInUseCase
+import spring.oauth.tutorial.auth.applicaiton.inbound.rest.controller.model.SignInQuery
+import spring.oauth.tutorial.auth.applicaiton.inbound.rest.controller.model.SignInResult
 
 @Service
 class SignInService : SignInUseCase {
