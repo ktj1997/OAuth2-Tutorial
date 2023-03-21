@@ -3,7 +3,7 @@ package spring.oauth.tutorial.auth.adapter.outbound.rest.client
 import OAuthTokenResponse
 import org.springframework.security.oauth2.client.registration.ClientRegistration
 import org.springframework.stereotype.Component
-import spring.oauth.tutorial.auth.adapter.outbound.rest.client.model.OAuthUserInfo
+import spring.oauth.tutorial.auth.applicaiton.outbound.rest.model.OAuthUserInfo
 import spring.oauth.tutorial.auth.domain.OAuthType
 
 @Component

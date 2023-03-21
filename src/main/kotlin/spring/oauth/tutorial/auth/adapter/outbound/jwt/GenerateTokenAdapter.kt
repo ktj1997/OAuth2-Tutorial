@@ -23,14 +23,14 @@ class GenerateTokenAdapter(
         return if (tokenType === TokenType.ACCESS) {
             generateAccessToken(
                 userIdentifier = userIdentifier,
-                expire = jwtTokenProperties.accessTokenExpire,
-                secret = jwtTokenProperties.secretTokenSecret
+                expire = jwtTokenProperties.access.expire,
+                secret = jwtTokenProperties.access.secret
             )
         } else {
             generateAccessToken(
                 userIdentifier = userIdentifier,
-                expire = jwtTokenProperties.secretTokenExpire,
-                secret = jwtTokenProperties.secretTokenSecret
+                expire = jwtTokenProperties.refresh.expire,
+                secret = jwtTokenProperties.refresh.secret
             )
         }
     }
@@ -43,7 +43,7 @@ class GenerateTokenAdapter(
         return Jwts.builder()
             .claim("id", userIdentifier)
             .setIssuedAt(Date(now))
-            .setExpiration(Date(expire))
+            .setExpiration(Date(expiredAt))
             .signWith(key, SignatureAlgorithm.HS256)
             .compact()
     }

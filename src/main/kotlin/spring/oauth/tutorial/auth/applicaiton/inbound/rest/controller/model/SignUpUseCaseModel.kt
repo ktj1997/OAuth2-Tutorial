@@ -8,13 +8,4 @@ data class SignUpCommand(
     val password: String?,
     val oAuthType: OAuthType,
     val email: String,
-) {
-    fun toDomain(): Account {
-        return Account(
-            userName = this.userName,
-            password = this.password,
-            oAuthType = this.oAuthType,
-            email = this.email
-        )
-    }
-}
+)

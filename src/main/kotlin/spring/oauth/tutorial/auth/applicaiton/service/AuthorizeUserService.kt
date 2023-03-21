@@ -9,7 +9,7 @@ import spring.oauth.tutorial.auth.domain.TokenType
 class AuthorizeUserService(
     val resolveTokenPort: ResolveTokenPort
 ) : AuthorizeUserUseCase {
-    override fun parseUserIdentifierFromToken(token: String?, type: TokenType): String {
+    override fun parseUserIdentifierFromToken(token: String, type: TokenType): String {
         return resolveTokenPort.getUserIdentifier(
             token = token,
             type = type

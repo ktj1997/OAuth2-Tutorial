@@ -11,6 +11,6 @@ class SignUpService(
     private val saveAccountPort: SaveAccountPort
 ) : SignUpUseCase {
     override fun signUp(command: SignUpCommand): Account {
-        return saveAccountPort.save(command.toDomain())
+        return saveAccountPort.save(command)
     }
 }

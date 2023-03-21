@@ -23,7 +23,6 @@ import spring.oauth.tutorial.auth.applicaiton.inbound.rest.filter.AuthorizeUserU
 @EnableWebSecurity
 @EnableConfigurationProperties(value = [JwtTokenProperties::class])
 class SecurityConfig(
-    val objectMapper: ObjectMapper,
     val authorizeUserUseCase: AuthorizeUserUseCase
 ) {
 
@@ -45,14 +44,14 @@ class SecurityConfig(
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
         http
-            .authorizeHttpRequests().requestMatchers(HttpMethod.POST, "/api/v1/auth/**").permitAll()
-            .and()
-            .authorizeHttpRequests().requestMatchers(HttpMethod.GET, "/oauth").permitAll()
+            .authorizeHttpRequests()
+            .requestMatchers(HttpMethod.POST, "/api/v1/auth/**").permitAll()
+            .requestMatchers(HttpMethod.GET, "/oauth/**").permitAll()
             .anyRequest()
             .authenticated()
 
         return http
-            .addFilterBefore(JwtAuthenticationFilter(objectMapper, authorizeUserUseCase), UsernamePasswordAuthenticationFilter::class.java)
+            .addFilterBefore(JwtAuthenticationFilter(authorizeUserUseCase), UsernamePasswordAuthenticationFilter::class.java)
             .build()
     }
 

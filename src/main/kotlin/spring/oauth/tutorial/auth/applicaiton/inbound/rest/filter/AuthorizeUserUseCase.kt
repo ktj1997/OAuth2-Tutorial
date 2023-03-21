@@ -4,5 +4,5 @@ import spring.oauth.tutorial.auth.domain.TokenType
 
 interface AuthorizeUserUseCase {
 
-    fun parseUserIdentifierFromToken(token: String?, type: TokenType): String
+    fun parseUserIdentifierFromToken(token: String, type: TokenType): String
 }

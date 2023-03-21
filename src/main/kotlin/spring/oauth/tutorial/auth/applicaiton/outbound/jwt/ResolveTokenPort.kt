@@ -4,5 +4,5 @@ import spring.oauth.tutorial.auth.domain.TokenType
 
 interface ResolveTokenPort {
 
-    fun getUserIdentifier(token: String?, type: TokenType): String
+    fun getUserIdentifier(token: String, type: TokenType): String
 }

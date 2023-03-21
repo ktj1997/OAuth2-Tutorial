@@ -23,6 +23,9 @@ data class AccountEntity(
     val email: String,
 
     @Column
+    val userIdentifier:String,
+
+    @Column
     @Enumerated(EnumType.STRING)
     val oauthType: OAuthType
 ) {
@@ -32,7 +35,8 @@ data class AccountEntity(
                 userName = domain.userName,
                 password = domain.password,
                 email = domain.email,
-                oauthType = domain.oAuthType
+                oauthType = domain.oAuthType,
+                userIdentifier = domain.userIdentifier
             )
         }
     }

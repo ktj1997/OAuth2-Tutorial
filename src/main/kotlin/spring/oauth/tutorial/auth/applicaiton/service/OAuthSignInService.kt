@@ -7,24 +7,26 @@ import spring.oauth.tutorial.auth.applicaiton.inbound.rest.controller.SignUpUseC
 import spring.oauth.tutorial.auth.applicaiton.inbound.rest.controller.model.OAuthSignInQuery
 import spring.oauth.tutorial.auth.applicaiton.inbound.rest.controller.model.OAuthSignInResult
 import spring.oauth.tutorial.auth.applicaiton.inbound.rest.controller.model.SignUpCommand
+import spring.oauth.tutorial.auth.applicaiton.outbound.jwt.GenerateTokenPort
 import spring.oauth.tutorial.auth.applicaiton.outbound.persistence.GetAccountPort
 import spring.oauth.tutorial.auth.applicaiton.outbound.rest.GetOAuthTokenPort
 import spring.oauth.tutorial.auth.applicaiton.outbound.rest.GetOAuthUserInfoPort
+import spring.oauth.tutorial.auth.domain.TokenType
 
 @Service
 class OAuthSignInService(
     private val signUpUseCase: SignUpUseCase,
-
+    private val generateTokenPort: GenerateTokenPort,
     private val getOAuthTokenPort: GetOAuthTokenPort,
     private val getOAuthUserInfoPort: GetOAuthUserInfoPort,
     private val getAccountPort: GetAccountPort,
 ) : OAuthSignInUseCase {
     @Transactional
     override fun oAuthSignIn(query: OAuthSignInQuery): OAuthSignInResult {
-        val token = getOAuthTokenPort.getToken(query)
+        val oAuthAccessToken = getOAuthTokenPort.getToken(query)
         val userInfo = getOAuthUserInfoPort.getUserInfo(
             provider = query.provider,
-            accessToken = token
+            accessToken = oAuthAccessToken
         )
         val account =
             getAccountPort.findAccountByEmailAndOAuthType(userInfo.email, query.provider)
@@ -38,6 +40,9 @@ class OAuthSignInService(
                     signUpUseCase.signUp(command)
                 }
 
-        return OAuthSignInResult(token)
+
+        val accessToken = generateTokenPort.generateToken(account.userIdentifier,TokenType.ACCESS)
+        //refreshToken 생성
+        return OAuthSignInResult(accessToken)
     }
 }

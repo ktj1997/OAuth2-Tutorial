@@ -16,16 +16,19 @@ class ResolveTokenAdapter(
     val jwtTokenProperties: JwtTokenProperties
 ) : ResolveTokenPort {
 
-    override fun getUserIdentifier(token: String?, type: TokenType): String {
+    companion object{
+        const val BEARER = "Bearer "
+    }
+    override fun getUserIdentifier(token: String, type: TokenType): String {
         if (type === TokenType.ACCESS) {
-            val key: SecretKey = Keys.hmacShaKeyFor(jwtTokenProperties.accessTokenSecret.toByteArray())
-            val jwt = token?.let {
-                if (it.startsWith("Bearer ")) {
-                    token.replace("Bearer ", "")
+            val key: SecretKey = Keys.hmacShaKeyFor(jwtTokenProperties.access.secret.toByteArray())
+            val jwt = token.let {
+                if (it.startsWith(BEARER)) {
+                    token.replace(BEARER, "")
                 } else {
                     throw DecodingException("Bearer토큰이 아닙니다.")
                 }
-            } ?: throw IllegalArgumentException("토큰이 존재하지 않습니다.")
+            }
 
             val claims = Jwts.parser()
                 .setSigningKey(key)

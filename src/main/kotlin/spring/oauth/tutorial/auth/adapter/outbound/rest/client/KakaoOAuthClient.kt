@@ -7,10 +7,10 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
 import spring.oauth.tutorial.auth.adapter.outbound.rest.client.model.KakaoOauthUserInfoResponse
-import spring.oauth.tutorial.auth.adapter.outbound.rest.client.model.OAuthUserInfo
 import spring.oauth.tutorial.auth.domain.OAuthType
 import java.nio.charset.StandardCharsets
 import java.util.Collections
+import spring.oauth.tutorial.auth.applicaiton.outbound.rest.model.OAuthUserInfo
 
 @Component
 class KakaoOAuthClient : OAuthClient {

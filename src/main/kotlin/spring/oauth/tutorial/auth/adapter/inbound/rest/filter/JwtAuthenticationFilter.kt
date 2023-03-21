@@ -13,7 +13,6 @@ import spring.oauth.tutorial.auth.applicaiton.inbound.rest.filter.AuthorizeUserU
 import spring.oauth.tutorial.auth.domain.TokenType
 
 class JwtAuthenticationFilter(
-    private val objectMapper: ObjectMapper,
     private val authorizeUserUseCase: AuthorizeUserUseCase
 ) : OncePerRequestFilter() {
 
@@ -23,10 +22,12 @@ class JwtAuthenticationFilter(
         response: HttpServletResponse,
         filterChain: FilterChain
     ) {
-        val token = request.getHeader("Authorization")
-        val userIdentifier = authorizeUserUseCase.parseUserIdentifierFromToken(token, TokenType.ACCESS)
+        val token:String? = request.getHeader("Authorization")
 
-        SecurityContextHolder.getContext().authentication = UsernamePasswordAuthenticationToken(userIdentifier, "", null)
+        token?.let {
+            val userIdentifier = authorizeUserUseCase.parseUserIdentifierFromToken(token, TokenType.ACCESS)
+            SecurityContextHolder.getContext().authentication = UsernamePasswordAuthenticationToken(userIdentifier, "", null)
+        }
         filterChain.doFilter(request, response)
     }
 }

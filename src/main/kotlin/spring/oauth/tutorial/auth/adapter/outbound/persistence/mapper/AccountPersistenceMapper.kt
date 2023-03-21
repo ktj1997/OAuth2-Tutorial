@@ -8,6 +8,7 @@ fun AccountEntity.toDomain(): Account {
         email = this.email,
         userName = this.userName,
         password = this.password,
-        oAuthType = this.oauthType
+        oAuthType = this.oauthType,
+        userIdentifier = this.userIdentifier
     )
 }
