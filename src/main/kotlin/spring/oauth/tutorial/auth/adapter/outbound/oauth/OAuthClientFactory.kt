@@ -1,7 +1,7 @@
-package spring.oauth.tutorial.auth.adapter.outbound.rest
+package spring.oauth.tutorial.auth.adapter.outbound.oauth
 
 import org.springframework.stereotype.Component
-import spring.oauth.tutorial.auth.adapter.outbound.rest.client.OAuthClient
+import spring.oauth.tutorial.auth.adapter.outbound.oauth.client.OAuthClient
 import spring.oauth.tutorial.auth.domain.OAuthType
 
 @Component

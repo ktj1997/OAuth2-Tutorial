@@ -1,9 +1,11 @@
 import spring.oauth.tutorial.auth.applicaiton.inbound.rest.controller.model.SignInQuery
 import spring.oauth.tutorial.auth.applicaiton.inbound.rest.controller.model.SignInResult
+import spring.oauth.tutorial.auth.domain.OAuthType
 
 data class SignInRequest(
     val userName: String,
-    val password: String
+    val password: String,
+    val provider: OAuthType
 ) {
     fun toQuery(): SignInQuery {
         return SignInQuery(

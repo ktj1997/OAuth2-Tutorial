@@ -23,7 +23,7 @@ data class AccountEntity(
     val email: String,
 
     @Column
-    val userIdentifier:String,
+    val userIdentifier: String,
 
     @Column
     @Enumerated(EnumType.STRING)

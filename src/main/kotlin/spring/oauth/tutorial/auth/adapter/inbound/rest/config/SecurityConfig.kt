@@ -1,6 +1,5 @@
 package spring.oauth.tutorial.auth.adapter.inbound.rest.config
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties
 import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientPropertiesRegistrationAdapter
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -45,7 +44,7 @@ class SecurityConfig(
 
         http
             .authorizeHttpRequests()
-            .requestMatchers(HttpMethod.POST, "/api/v1/auth/**").permitAll()
+            .requestMatchers("/api/v1/auth/**").permitAll()
             .requestMatchers(HttpMethod.GET, "/oauth/**").permitAll()
             .anyRequest()
             .authenticated()

@@ -9,17 +9,20 @@ import spring.oauth.tutorial.auth.applicaiton.inbound.rest.controller.model.OAut
 import spring.oauth.tutorial.auth.applicaiton.inbound.rest.controller.model.SignUpCommand
 import spring.oauth.tutorial.auth.applicaiton.outbound.jwt.GenerateTokenPort
 import spring.oauth.tutorial.auth.applicaiton.outbound.persistence.GetAccountPort
+import spring.oauth.tutorial.auth.applicaiton.outbound.rest.GetOAuthRedirectUriPort
 import spring.oauth.tutorial.auth.applicaiton.outbound.rest.GetOAuthTokenPort
 import spring.oauth.tutorial.auth.applicaiton.outbound.rest.GetOAuthUserInfoPort
+import spring.oauth.tutorial.auth.domain.OAuthType
 import spring.oauth.tutorial.auth.domain.TokenType
 
 @Service
 class OAuthSignInService(
     private val signUpUseCase: SignUpUseCase,
+    private val getAccountPort: GetAccountPort,
     private val generateTokenPort: GenerateTokenPort,
     private val getOAuthTokenPort: GetOAuthTokenPort,
     private val getOAuthUserInfoPort: GetOAuthUserInfoPort,
-    private val getAccountPort: GetAccountPort,
+    private val getOAuthRedirectUriPort: GetOAuthRedirectUriPort
 ) : OAuthSignInUseCase {
     @Transactional
     override fun oAuthSignIn(query: OAuthSignInQuery): OAuthSignInResult {
@@ -40,9 +43,12 @@ class OAuthSignInService(
                     signUpUseCase.signUp(command)
                 }
 
-
-        val accessToken = generateTokenPort.generateToken(account.userIdentifier,TokenType.ACCESS)
-        //refreshToken 생성
+        val accessToken = generateTokenPort.generateToken(account.userIdentifier, TokenType.ACCESS)
+        // refreshToken 생성
         return OAuthSignInResult(accessToken)
+    }
+
+    override fun getRedirectURI(type: OAuthType): String {
+        return getOAuthRedirectUriPort.getAuthorizationCodeRedirectUri(type)
     }
 }

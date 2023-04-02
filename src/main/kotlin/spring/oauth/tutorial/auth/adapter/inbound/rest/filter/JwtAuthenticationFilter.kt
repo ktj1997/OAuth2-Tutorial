@@ -1,6 +1,5 @@
 package spring.oauth.tutorial.auth.adapter.inbound.rest.filter
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import io.jsonwebtoken.io.IOException
 import jakarta.servlet.FilterChain
 import jakarta.servlet.ServletException
@@ -22,7 +21,7 @@ class JwtAuthenticationFilter(
         response: HttpServletResponse,
         filterChain: FilterChain
     ) {
-        val token:String? = request.getHeader("Authorization")
+        val token: String? = request.getHeader("Authorization")
 
         token?.let {
             val userIdentifier = authorizeUserUseCase.parseUserIdentifierFromToken(token, TokenType.ACCESS)

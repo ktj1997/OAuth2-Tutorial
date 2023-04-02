@@ -16,7 +16,7 @@ class ResolveTokenAdapter(
     val jwtTokenProperties: JwtTokenProperties
 ) : ResolveTokenPort {
 
-    companion object{
+    companion object {
         const val BEARER = "Bearer "
     }
     override fun getUserIdentifier(token: String, type: TokenType): String {

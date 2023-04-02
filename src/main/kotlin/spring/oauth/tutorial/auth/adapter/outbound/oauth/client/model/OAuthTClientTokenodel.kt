@@ -1,3 +1,5 @@
+package spring.oauth.tutorial.auth.adapter.outbound.oauth.client.model
+
 import com.fasterxml.jackson.annotation.JsonProperty
 
 data class OAuthTokenResponse(

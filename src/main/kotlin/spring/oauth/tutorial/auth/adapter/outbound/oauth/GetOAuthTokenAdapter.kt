@@ -1,4 +1,4 @@
-package spring.oauth.tutorial.auth.adapter.outbound.rest
+package spring.oauth.tutorial.auth.adapter.outbound.oauth
 
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository
 import org.springframework.stereotype.Component

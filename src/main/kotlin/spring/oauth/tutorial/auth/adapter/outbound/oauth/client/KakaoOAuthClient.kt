@@ -1,12 +1,12 @@
-package spring.oauth.tutorial.auth.adapter.outbound.rest.client
+package spring.oauth.tutorial.auth.adapter.outbound.oauth.client
 
-import KaKaoOauthClientResponse
-import OAuthTokenResponse
+import spring.oauth.tutorial.auth.adapter.outbound.oauth.client.model.KaKaoOauthClientResponse
+import spring.oauth.tutorial.auth.adapter.outbound.oauth.client.model.OAuthTokenResponse
 import org.springframework.http.MediaType
 import org.springframework.security.oauth2.client.registration.ClientRegistration
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
-import spring.oauth.tutorial.auth.adapter.outbound.rest.client.model.KakaoOauthUserInfoResponse
+import spring.oauth.tutorial.auth.adapter.outbound.oauth.client.model.KakaoOauthUserInfoResponse
 import spring.oauth.tutorial.auth.domain.OAuthType
 import java.nio.charset.StandardCharsets
 import java.util.Collections
@@ -38,6 +38,7 @@ class KakaoOAuthClient : OAuthClient {
                 .bodyToMono(KaKaoOauthClientResponse::class.java)
                 .block() ?: throw IllegalArgumentException("OAuth Authorization Fail: Kakao")
 
+        println("I Send")
         return OAuthTokenResponse(response.accessToken)
     }
 
@@ -62,5 +63,9 @@ class KakaoOAuthClient : OAuthClient {
 
     override fun getProvider(): OAuthType {
         return OAuthType.KAKAO
+    }
+
+    override fun getAuthorizationCodeRedirectURI(registration: ClientRegistration): String {
+        return "${registration.providerDetails.authorizationUri}?client_id=${registration.clientId}&redirect_uri=${registration.redirectUri}&response_type=code"
     }
 }

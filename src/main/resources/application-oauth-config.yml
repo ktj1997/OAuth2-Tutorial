@@ -1,30 +1,31 @@
+
 spring:
   security:
     oauth2:
       client:
-        # Registration (GOOGLE, KAKAO)
         registration:
           google:
-            client-id: ${GOOGLE_OAUTH_CLIENT_PASSWORD:GOOGLE_CLIENT_ID}
-            redirect-uri: http://localhost:3000/oauth/google
-            authorization-grant-type: authorization_code
-            client-authentication-method: POST
             client_name: google
-          kakao:
-            client-id: ${KAKAO_OAUTH_CLIENT_ID}
-            authorization-grant-type: authorization_code
-            redirect-uri: ${KAKAO_OAUTH_CLIENT_REDIRECT_URI}
             client-authentication-method: POST
+            authorization-grant-type: authorization_code
+            client-id: ${GOOGLE_OAUTH_CLIENT_ID}
+            client-secret: ${GOOGLE_OAUTH_CLIENT_SECRET}
+            redirect-uri: ${GOOGLE_OAUTH_CLIENT_REDIRECT_URI:http://localhost:${server.port}/api/v1/auth/oauth/signin/google}
+          kakao:
             client_name: kakao
-        # Provider (GOOGLE, KAKAO)
+            client-authentication-method: POST
+            authorization-grant-type: authorization_code
+            client-id: ${KAKAO_OAUTH_CLIENT_ID}
+            redirect-uri: ${KAKAO_OAUTH_CLIENT_REDIRECT_URI:http://localhost:${server.port}/api/v1/auth/oauth/signin/kakao}
         provider:
           google:
-            authorization-uri: ${GOOGLE_AUTHORIZATION_URI:GOOGLE_AUTHORIZATION_URI}
             token-uri: ${GOOGLE_TOKEN_URI:GOOGLE_TOKEN}
-            user-info-uri: ${GOOGLE_USER_INFO_URI:GOOGLE_USER_INFO_URI}
+            user-info-uri: ${GOOGLE_USER_INFO_URI:GOOGLE_USER_INFO_URI:https://googleapis.com/oauth2/v1/userinfo}
+            authorization-uri: dfdf
           kakao:
-            authorization-uri: ${KAKAO_AUTHORIZATION_URI:KAKO_AUTHORIZATION_URI}
             token-uri: ${KAKAO_TOKEN_URI:https://kauth.kakao.com//oauth/token}
             user-info-uri: ${KAKAO_USER_INFO_URI:https://kapi.kakao.com//v2/user/me}
-
+            authorization-uri: ${KAKAO_AUTHORIZTION_URI:https://kauth.kakao.com/oauth/authorize}
+server:
+  port: 8080
 

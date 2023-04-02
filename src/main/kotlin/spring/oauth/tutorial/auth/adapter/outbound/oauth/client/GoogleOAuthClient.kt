@@ -1,6 +1,6 @@
-package spring.oauth.tutorial.auth.adapter.outbound.rest.client
+package spring.oauth.tutorial.auth.adapter.outbound.oauth.client
 
-import OAuthTokenResponse
+import spring.oauth.tutorial.auth.adapter.outbound.oauth.client.model.OAuthTokenResponse
 import org.springframework.security.oauth2.client.registration.ClientRegistration
 import org.springframework.stereotype.Component
 import spring.oauth.tutorial.auth.applicaiton.outbound.rest.model.OAuthUserInfo
@@ -21,5 +21,9 @@ class GoogleOAuthClient : OAuthClient {
 
     override fun getProvider(): OAuthType {
         return OAuthType.GOOGLE
+    }
+
+    override fun getAuthorizationCodeRedirectURI(registration: ClientRegistration): String {
+        TODO("Not yet implemented")
     }
 }
