@@ -1,4 +1,5 @@
-
+server:
+  port: 8080
 spring:
   security:
     oauth2:
@@ -10,22 +11,23 @@ spring:
             authorization-grant-type: authorization_code
             client-id: ${GOOGLE_OAUTH_CLIENT_ID}
             client-secret: ${GOOGLE_OAUTH_CLIENT_SECRET}
-            redirect-uri: ${GOOGLE_OAUTH_CLIENT_REDIRECT_URI:http://localhost:${server.port}/api/v1/auth/oauth/signin/google}
+            redirect-uri: ${GOOGLE_OAUTH_CLIENT_REDIRECT_URI:http://localhost:${server.port}/api/v1/auth/signin/oauth/google}
+            scope:
+              - https://www.googleapis.com/auth/userinfo.email
+              - https://www.googleapis.com/auth/userinfo.profile
           kakao:
             client_name: kakao
             client-authentication-method: POST
             authorization-grant-type: authorization_code
             client-id: ${KAKAO_OAUTH_CLIENT_ID}
-            redirect-uri: ${KAKAO_OAUTH_CLIENT_REDIRECT_URI:http://localhost:${server.port}/api/v1/auth/oauth/signin/kakao}
+            redirect-uri: ${KAKAO_OAUTH_CLIENT_REDIRECT_URI:http://localhost:${server.port}/api/v1/auth/signin/oauth/kakao}
         provider:
           google:
-            token-uri: ${GOOGLE_TOKEN_URI:GOOGLE_TOKEN}
-            user-info-uri: ${GOOGLE_USER_INFO_URI:GOOGLE_USER_INFO_URI:https://googleapis.com/oauth2/v1/userinfo}
-            authorization-uri: dfdf
+            token-uri: ${GOOGLE_TOKEN_URI:https://oauth2.googleapis.com/token}
+            user-info-uri: ${GOOGLE_USER_INFO_URI:GOOGLE_USER_INFO_URI:https://googleapis.com/oauth2/v2/userinfo}
+            authorization-uri: ${GOOGLE_AUTHORIZTION_URI:https://accounts.google.com/o/oauth2/v2/auth}
           kakao:
             token-uri: ${KAKAO_TOKEN_URI:https://kauth.kakao.com//oauth/token}
             user-info-uri: ${KAKAO_USER_INFO_URI:https://kapi.kakao.com//v2/user/me}
             authorization-uri: ${KAKAO_AUTHORIZTION_URI:https://kauth.kakao.com/oauth/authorize}
-server:
-  port: 8080
 

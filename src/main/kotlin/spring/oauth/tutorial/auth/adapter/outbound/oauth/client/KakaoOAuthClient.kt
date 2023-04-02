@@ -1,23 +1,24 @@
 package spring.oauth.tutorial.auth.adapter.outbound.oauth.client
 
-import spring.oauth.tutorial.auth.adapter.outbound.oauth.client.model.KaKaoOauthClientResponse
-import spring.oauth.tutorial.auth.adapter.outbound.oauth.client.model.OAuthTokenResponse
+import spring.oauth.tutorial.auth.adapter.outbound.oauth.client.model.KaKaoOAuthClientResponse
 import org.springframework.http.MediaType
 import org.springframework.security.oauth2.client.registration.ClientRegistration
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
-import spring.oauth.tutorial.auth.adapter.outbound.oauth.client.model.KakaoOauthUserInfoResponse
+import spring.oauth.tutorial.auth.adapter.outbound.oauth.client.model.KakaoOAuthUserInfoResponse
 import spring.oauth.tutorial.auth.domain.OAuthType
 import java.nio.charset.StandardCharsets
 import java.util.Collections
-import spring.oauth.tutorial.auth.applicaiton.outbound.rest.model.OAuthUserInfo
+import spring.oauth.tutorial.auth.applicaiton.outbound.oauth.model.GetOAuthUserInfoQuery
+import spring.oauth.tutorial.auth.applicaiton.outbound.oauth.model.OAuthTokenInfo
+import spring.oauth.tutorial.auth.applicaiton.outbound.oauth.model.OAuthUserInfo
 
 @Component
 class KakaoOAuthClient : OAuthClient {
     override fun getToken(
         registration: ClientRegistration,
         authorizationCode: String
-    ): OAuthTokenResponse {
+    ): OAuthTokenInfo {
         val response =
             WebClient
                 .create()
@@ -35,14 +36,16 @@ class KakaoOAuthClient : OAuthClient {
                     it.acceptCharset = Collections.singletonList(StandardCharsets.UTF_8)
                 }
                 .retrieve()
-                .bodyToMono(KaKaoOauthClientResponse::class.java)
+                .bodyToMono(KaKaoOAuthClientResponse::class.java)
                 .block() ?: throw IllegalArgumentException("OAuth Authorization Fail: Kakao")
-
-        println("I Send")
-        return OAuthTokenResponse(response.accessToken)
+        return OAuthTokenInfo(
+            accessToken = response.accessToken,
+            refreshToken = response.refreshToken,
+            idToken = null
+        )
     }
 
-    override fun getUserInfo(accessToken: String, registration: ClientRegistration,): OAuthUserInfo {
+    override fun getUserInfo(query: GetOAuthUserInfoQuery, registration: ClientRegistration,): OAuthUserInfo {
         val response =
             WebClient
                 .create()
@@ -51,13 +54,13 @@ class KakaoOAuthClient : OAuthClient {
                 .headers {
                     it.contentType = MediaType.APPLICATION_FORM_URLENCODED
                     it.acceptCharset = Collections.singletonList(StandardCharsets.UTF_8)
-                    it.setBearerAuth(accessToken)
+                    it.setBearerAuth(query.accessToken)
                 }
                 .retrieve()
-                .bodyToMono(KakaoOauthUserInfoResponse::class.java)
+                .bodyToMono(KakaoOAuthUserInfoResponse::class.java)
                 .block() ?: throw IllegalArgumentException("OAuth Get UserInfo Fail: Kakao")
         return OAuthUserInfo(
-            email = response.kakaoAccount?.email ?: ""
+            email = response.kakaoAccount.email
         )
     }
 

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import spring.oauth.tutorial.auth.applicaiton.inbound.rest.controller.SignInUseCase
+import spring.oauth.tutorial.auth.applicaiton.inbound.rest.controller.model.SignInUseCaseInput
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -20,8 +21,11 @@ class SignInController(
         @RequestBody request: SignInRequest,
         response: HttpServletResponse
     ): SignInResponse {
-        val query = request.toQuery()
-        val result = signInUseCase.signIn(query)
+        val input = SignInUseCaseInput(
+            userName = request.userName,
+            password = request.password
+        )
+        val result = signInUseCase.signIn(input)
 
         return SignInResponse.fromResult(result)
     }

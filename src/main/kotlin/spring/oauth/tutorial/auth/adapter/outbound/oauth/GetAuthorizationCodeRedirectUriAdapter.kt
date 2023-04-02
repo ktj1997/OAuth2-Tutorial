@@ -2,7 +2,7 @@ package spring.oauth.tutorial.auth.adapter.outbound.oauth
 
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository
 import org.springframework.stereotype.Component
-import spring.oauth.tutorial.auth.applicaiton.outbound.rest.GetOAuthRedirectUriPort
+import spring.oauth.tutorial.auth.applicaiton.outbound.oauth.GetOAuthRedirectUriPort
 import spring.oauth.tutorial.auth.domain.OAuthType
 
 @Component

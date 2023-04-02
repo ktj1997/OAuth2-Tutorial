@@ -5,7 +5,6 @@ import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2Clien
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
@@ -45,7 +44,6 @@ class SecurityConfig(
         http
             .authorizeHttpRequests()
             .requestMatchers("/api/v1/auth/**").permitAll()
-            .requestMatchers(HttpMethod.GET, "/oauth/**").permitAll()
             .anyRequest()
             .authenticated()
 

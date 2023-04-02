@@ -1,7 +1,7 @@
 package spring.oauth.tutorial.auth.adapter.inbound.rest.controller.model
 
-import spring.oauth.tutorial.auth.applicaiton.inbound.rest.controller.model.OAuthSignInQuery
-import spring.oauth.tutorial.auth.applicaiton.inbound.rest.controller.model.OAuthSignInResult
+import spring.oauth.tutorial.auth.applicaiton.inbound.rest.controller.model.OAuthSignInUseCaseInput
+import spring.oauth.tutorial.auth.applicaiton.inbound.rest.controller.model.OAuthSignInUseCaseOutput
 import spring.oauth.tutorial.auth.domain.OAuthType
 
 data class OAuthSignInRequest(
@@ -9,9 +9,9 @@ data class OAuthSignInRequest(
     val provider: String
 ) {
 
-    fun toQuery(): OAuthSignInQuery {
+    fun toQuery(): OAuthSignInUseCaseInput {
         try {
-            return OAuthSignInQuery(
+            return OAuthSignInUseCaseInput(
                 provider = OAuthType.valueOf(provider),
                 authorizationCode = authorizationCode
             )
@@ -25,7 +25,7 @@ data class OAuthSignInResponse(
     val token: String
 ) {
     companion object {
-        fun fromResult(result: OAuthSignInResult): OAuthSignInResponse {
+        fun fromResult(result: OAuthSignInUseCaseOutput): OAuthSignInResponse {
             return OAuthSignInResponse(
                 token = result.token
             )

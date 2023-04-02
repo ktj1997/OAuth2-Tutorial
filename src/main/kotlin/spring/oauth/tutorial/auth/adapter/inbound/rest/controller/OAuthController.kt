@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import spring.oauth.tutorial.auth.adapter.inbound.rest.controller.model.OAuthSignInResponse
 import spring.oauth.tutorial.auth.applicaiton.inbound.rest.controller.OAuthSignInUseCase
-import spring.oauth.tutorial.auth.applicaiton.inbound.rest.controller.model.OAuthSignInQuery
+import spring.oauth.tutorial.auth.applicaiton.inbound.rest.controller.model.OAuthSignInUseCaseInput
 import spring.oauth.tutorial.auth.domain.OAuthType
 
 @RestController
@@ -15,7 +15,6 @@ import spring.oauth.tutorial.auth.domain.OAuthType
 class OAuthController(
     private val oAuthSignInUseCase: OAuthSignInUseCase
 ) {
-
     @GetMapping("/signin/oauth")
     fun oAuthSignIn(
         @RequestParam type: OAuthType,
@@ -28,24 +27,24 @@ class OAuthController(
     fun kakaoSignIn(
         @RequestParam code: String
     ): OAuthSignInResponse {
-        val query = OAuthSignInQuery(
+        val input = OAuthSignInUseCaseInput(
             authorizationCode = code,
             provider = OAuthType.KAKAO
         )
-        val result = oAuthSignInUseCase.oAuthSignIn(query)
+        val result = oAuthSignInUseCase.oAuthSignIn(input)
 
         return OAuthSignInResponse.fromResult(result)
     }
 
     @GetMapping("/signin/oauth/google")
     fun googleSignIn(
-        @RequestParam code: String
+        @RequestParam code: String,
     ): OAuthSignInResponse {
-        val query = OAuthSignInQuery(
+        val input = OAuthSignInUseCaseInput(
             authorizationCode = code,
             provider = OAuthType.GOOGLE
         )
-        val result = oAuthSignInUseCase.oAuthSignIn(query)
+        val result = oAuthSignInUseCase.oAuthSignIn(input)
 
         return OAuthSignInResponse.fromResult(result)
     }

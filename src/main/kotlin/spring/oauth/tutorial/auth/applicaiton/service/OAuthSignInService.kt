@@ -4,14 +4,16 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import spring.oauth.tutorial.auth.applicaiton.inbound.rest.controller.OAuthSignInUseCase
 import spring.oauth.tutorial.auth.applicaiton.inbound.rest.controller.SignUpUseCase
-import spring.oauth.tutorial.auth.applicaiton.inbound.rest.controller.model.OAuthSignInQuery
-import spring.oauth.tutorial.auth.applicaiton.inbound.rest.controller.model.OAuthSignInResult
-import spring.oauth.tutorial.auth.applicaiton.inbound.rest.controller.model.SignUpCommand
+import spring.oauth.tutorial.auth.applicaiton.inbound.rest.controller.model.OAuthSignInUseCaseInput
+import spring.oauth.tutorial.auth.applicaiton.inbound.rest.controller.model.OAuthSignInUseCaseOutput
+import spring.oauth.tutorial.auth.applicaiton.inbound.rest.controller.model.SignUpUseCaseInput
 import spring.oauth.tutorial.auth.applicaiton.outbound.jwt.GenerateTokenPort
 import spring.oauth.tutorial.auth.applicaiton.outbound.persistence.GetAccountPort
-import spring.oauth.tutorial.auth.applicaiton.outbound.rest.GetOAuthRedirectUriPort
-import spring.oauth.tutorial.auth.applicaiton.outbound.rest.GetOAuthTokenPort
-import spring.oauth.tutorial.auth.applicaiton.outbound.rest.GetOAuthUserInfoPort
+import spring.oauth.tutorial.auth.applicaiton.outbound.oauth.GetOAuthRedirectUriPort
+import spring.oauth.tutorial.auth.applicaiton.outbound.oauth.GetOAuthTokenPort
+import spring.oauth.tutorial.auth.applicaiton.outbound.oauth.GetOAuthUserInfoPort
+import spring.oauth.tutorial.auth.applicaiton.outbound.oauth.model.GetOAuthTokenQuery
+import spring.oauth.tutorial.auth.applicaiton.outbound.oauth.model.GetOAuthUserInfoQuery
 import spring.oauth.tutorial.auth.domain.OAuthType
 import spring.oauth.tutorial.auth.domain.TokenType
 
@@ -25,19 +27,28 @@ class OAuthSignInService(
     private val getOAuthRedirectUriPort: GetOAuthRedirectUriPort
 ) : OAuthSignInUseCase {
     @Transactional
-    override fun oAuthSignIn(query: OAuthSignInQuery): OAuthSignInResult {
-        val oAuthAccessToken = getOAuthTokenPort.getToken(query)
-        val userInfo = getOAuthUserInfoPort.getUserInfo(
-            provider = query.provider,
-            accessToken = oAuthAccessToken
+    override fun oAuthSignIn(input: OAuthSignInUseCaseInput): OAuthSignInUseCaseOutput {
+        val getOAuthTokenQuery = GetOAuthTokenQuery(
+            provider = input.provider,
+            authorizationCode = input.authorizationCode
         )
+        val oAuthTokenInfo = getOAuthTokenPort.getToken(getOAuthTokenQuery)
+
+        val getOAuthUserInfoQuery = GetOAuthUserInfoQuery(
+            provider = input.provider,
+            accessToken = oAuthTokenInfo.accessToken,
+            refreshToken = oAuthTokenInfo.refreshToken,
+            idToken = oAuthTokenInfo.idToken
+        )
+        val userInfo = getOAuthUserInfoPort.getUserInfo(getOAuthUserInfoQuery)
+
         val account =
-            getAccountPort.findAccountByEmailAndOAuthType(userInfo.email, query.provider)
+            getAccountPort.findAccountByEmailAndOAuthType(userInfo.email, input.provider)
                 ?: run {
-                    val command = SignUpCommand(
+                    val command = SignUpUseCaseInput(
                         userName = null,
                         password = null,
-                        oAuthType = query.provider,
+                        oAuthType = input.provider,
                         email = userInfo.email
                     )
                     signUpUseCase.signUp(command)
@@ -45,7 +56,7 @@ class OAuthSignInService(
 
         val accessToken = generateTokenPort.generateToken(account.userIdentifier, TokenType.ACCESS)
         // refreshToken 생성
-        return OAuthSignInResult(accessToken)
+        return OAuthSignInUseCaseOutput(accessToken)
     }
 
     override fun getRedirectURI(type: OAuthType): String {
