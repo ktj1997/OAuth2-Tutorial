@@ -6,7 +6,6 @@ import java.util.Base64
 import java.util.Collections
 import org.springframework.http.MediaType
 import org.springframework.security.oauth2.client.registration.ClientRegistration
-import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
 import spring.oauth.tutorial.auth.adapter.outbound.oauth.client.model.GoogleOAuthUserInfoJwtResponse
 import spring.oauth.tutorial.auth.adapter.outbound.oauth.client.model.GoogleOAuthUserInfoResponse
@@ -16,12 +15,11 @@ import spring.oauth.tutorial.auth.applicaiton.outbound.oauth.model.OAuthTokenInf
 import spring.oauth.tutorial.auth.applicaiton.outbound.oauth.model.OAuthUserInfo
 import spring.oauth.tutorial.auth.domain.OAuthType
 
-@Component
 class GoogleOAuthClient(
-    val objectMapper: ObjectMapper
+    val objectMapper: ObjectMapper,
+    val registration: ClientRegistration
 ) : OAuthClient {
     override fun getToken(
-        registration: ClientRegistration,
         authorizationCode: String
     ): OAuthTokenInfo {
         val response =
@@ -53,7 +51,6 @@ class GoogleOAuthClient(
 
     override fun getUserInfo(
         query: GetOAuthUserInfoQuery,
-        registration: ClientRegistration
     ): OAuthUserInfo {
         if (query.idToken != null) {
 
@@ -89,7 +86,7 @@ class GoogleOAuthClient(
         return OAuthType.GOOGLE
     }
 
-    override fun getAuthorizationCodeRedirectURI(registration: ClientRegistration): String {
+    override fun getAuthorizationCodeRedirectURI(): String {
         return "${registration.providerDetails.authorizationUri}?access_type=offline&prompt=consent&client_id=${registration.clientId}&redirect_uri=${registration.redirectUri}&response_type=code&scope=${
         registration.scopes.joinToString(
             " "

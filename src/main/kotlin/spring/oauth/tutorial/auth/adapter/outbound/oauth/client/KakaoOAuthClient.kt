@@ -3,7 +3,6 @@ package spring.oauth.tutorial.auth.adapter.outbound.oauth.client
 import spring.oauth.tutorial.auth.adapter.outbound.oauth.client.model.KaKaoOAuthClientResponse
 import org.springframework.http.MediaType
 import org.springframework.security.oauth2.client.registration.ClientRegistration
-import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
 import spring.oauth.tutorial.auth.adapter.outbound.oauth.client.model.KakaoOAuthUserInfoResponse
 import spring.oauth.tutorial.auth.domain.OAuthType
@@ -13,10 +12,10 @@ import spring.oauth.tutorial.auth.applicaiton.outbound.oauth.model.GetOAuthUserI
 import spring.oauth.tutorial.auth.applicaiton.outbound.oauth.model.OAuthTokenInfo
 import spring.oauth.tutorial.auth.applicaiton.outbound.oauth.model.OAuthUserInfo
 
-@Component
-class KakaoOAuthClient : OAuthClient {
+class KakaoOAuthClient(
+    val registration: ClientRegistration
+) : OAuthClient {
     override fun getToken(
-        registration: ClientRegistration,
         authorizationCode: String
     ): OAuthTokenInfo {
         val response =
@@ -45,7 +44,7 @@ class KakaoOAuthClient : OAuthClient {
         )
     }
 
-    override fun getUserInfo(query: GetOAuthUserInfoQuery, registration: ClientRegistration,): OAuthUserInfo {
+    override fun getUserInfo(query: GetOAuthUserInfoQuery): OAuthUserInfo {
         val response =
             WebClient
                 .create()
@@ -68,7 +67,7 @@ class KakaoOAuthClient : OAuthClient {
         return OAuthType.KAKAO
     }
 
-    override fun getAuthorizationCodeRedirectURI(registration: ClientRegistration): String {
+    override fun getAuthorizationCodeRedirectURI(): String {
         return "${registration.providerDetails.authorizationUri}?client_id=${registration.clientId}&redirect_uri=${registration.redirectUri}&response_type=code"
     }
 }
